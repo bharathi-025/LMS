@@ -67,7 +67,7 @@ export const stripeWebhooks= async (request,response)=>{
         process.env.STRIPE_WEBHOOK_SECRET
       );
     } catch (err) {
-       response.status(400).send(`Webhook Error: ${ err.message}`);
+      return response.status(400).send(`Webhook Error: ${ err.message}`);
       
     }
 //handle the event
@@ -77,13 +77,11 @@ export const stripeWebhooks= async (request,response)=>{
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
 
-      const paymentIntentId=paymentIntent.metadata.purchaseId;
+      const purchaseId=paymentIntent.metadata.purchaseId;
 
-      const session=await stripeInstance.checkout.sessions.list({
-        payment_intent:paymentIntentId
-      })
+   
 
-      const {purchaseId}= session.data[0].metadata
+      
       const purchaseData=await Purchase.findById(purchaseId)
       const userData=await User.findById(purchaseData.userId)
       const courseData=await Course.findById(purchaseData.courseId.toString())
@@ -104,13 +102,8 @@ export const stripeWebhooks= async (request,response)=>{
     case 'payment_intent.payment_failed':{
      const paymentIntent = event.data.object;
       
-    const paymentIntentId=paymentIntent.metadata.purchaseId;
+    const purchaseId=paymentIntent.metadata.purchaseId;
 
-      const session=await stripeInstance.checkout.sessions.list({
-        payment_intent:paymentIntentId
-      })
-
-      const {purchaseId}= session.data[0].metadata
 
        const purchaseData=await Purchase.findById(purchaseId)
        purchaseData.status='failed'
