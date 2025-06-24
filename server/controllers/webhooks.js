@@ -77,7 +77,7 @@ export const stripeWebhooks= async (request,response)=>{
       // Then define and call a method to handle the successful payment intent.
       // handlePaymentIntentSucceeded(paymentIntent);
 
-      const paymentIntentId=paymentIntent.id;
+      const paymentIntentId=paymentIntent.metadata.purchaseId;
 
       const session=await stripeInstance.checkout.sessions.list({
         payment_intent:paymentIntentId
@@ -100,10 +100,11 @@ export const stripeWebhooks= async (request,response)=>{
 
       break;
     }
+   
     case 'payment_intent.payment_failed':{
      const paymentIntent = event.data.object;
       
-    const paymentIntentId=paymentIntent.id;
+    const paymentIntentId=paymentIntent.metadata.purchaseId;
 
       const session=await stripeInstance.checkout.sessions.list({
         payment_intent:paymentIntentId
@@ -124,4 +125,5 @@ export const stripeWebhooks= async (request,response)=>{
 
   // Return a response to acknowledge receipt of the event
   response.json({received: true});
+  
 }
