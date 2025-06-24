@@ -70,7 +70,7 @@ export const purchaseCourse=async(req,res)=>{
             success_url:`${origin}/loading/my-enrollments`,
             cancel_url:`${origin}/`,
             mode:'payment',
-            line_items:[],
+            line_items,
             payment_intent_data:{
             metadata:{
                 purchaseId: newPurchase._id.toString()
