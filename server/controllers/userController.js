@@ -2,7 +2,7 @@ import Stripe from "stripe"
 import Course from "../models/course.js"
 import  Purchase  from "../models/purchase.js"
 import User from "../models/user.js"
-
+import { CourseProgress } from "../models/courseProgress.js"
 
 //Get user data
 export const getUserData=async(req,res)=>{
@@ -117,6 +117,7 @@ export const getUserCourseProgress=async(req,res)=>{
         const userId=req.auth.userId
         const {courseId}=req.body
         const progressData=await CourseProgress.findOne({userId,courseId})
+       
         res.json({success:true,progressData})
     } catch (error) {
         res.json({success:false,message:error.message})

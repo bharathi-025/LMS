@@ -60,7 +60,7 @@ export const getEducatorCourses= async(req,res)=>{
 export const educatorDashboardData=async(req,res)=>{
     try {
         const educator=req.auth.userId;
-        const courses=await Course.find({educator})
+        const courses=await Course.find({educator}).populate('educator', 'name imageUrl')
         const totalCourses= courses.length;
 
         const courseIds=courses.map(course=>course._id)
