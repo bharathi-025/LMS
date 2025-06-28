@@ -17,11 +17,8 @@ await connetDB()
 await connectCloudinary()
 
 //Middleware
-app.use(cors({
-  origin: ['https://lms-orpin-eta.vercel.app'],
-  credentials: true
-}))
-app.use(express.json());
+app.use(cors())
+
 app.use(clerkMiddleware())
 
 //Routes
