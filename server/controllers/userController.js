@@ -1,6 +1,6 @@
 import Stripe from "stripe"
 import Course from "../models/course.js"
-import { Purchase } from "../models/purchase.js"
+import  Purchase  from "../models/purchase.js"
 import User from "../models/user.js"
 
 //Get user data
